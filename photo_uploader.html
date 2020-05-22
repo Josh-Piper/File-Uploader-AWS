@@ -60,6 +60,17 @@
     display: none;
 }
 
+#submit-button {    
+border-radius: 5px;
+    border: 0;
+    width: 80px;
+    height:25px;
+    font-family: Tahoma;
+    background: #f4f4f4;
+	background: -webkit-linear-gradient(top, #f4f4f4 1%, #ededed 100%);
+	background: -moz-linear-gradient(top, #f4f4f4 1%, #ededed 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #f4f4f4), color-stop(100%, #ededed));
+
     </style>
     <script>
     function displayFileName() {
@@ -85,7 +96,7 @@
 
 <div class="form">
     <div class="header-main"><h1 class="header-title">Photo Uploader</h1></div>
-<form id="photo-form" method="post" action="photo_handler.php">
+<form id="photo-form" method="POST" action="photo_uploader_handler.php">
     <p>
 <label for="photo-title">Title of Photo: </label>
 <input type="text" id="photo-title" name="photo-title"><br>
