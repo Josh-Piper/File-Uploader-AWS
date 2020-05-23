@@ -1,4 +1,4 @@
-#File-Uploader-AWS
+# File-Uploader-AWS
 
 ## Description
 <br>Simple file uploading application that will be used in AWS. 
