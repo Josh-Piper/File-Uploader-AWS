@@ -15,3 +15,4 @@ sudo unzip File-Uploader-AWS-master.zip -d /var/www/html -> unzips repo into def
 sudo service httpd start -> Starts web server on current machine
 ```
 
+### How to make wget and update EC2 instance repo when config refreshed? boot /w docker + kurbenetes...
