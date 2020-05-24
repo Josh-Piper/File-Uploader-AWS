@@ -1,0 +1,7 @@
+Edit uploader to be drag n drop
+Only ability to drag n drop at start
+once image is in. Table appears for the other information.
+
+Style like bootstrap simple appearance.
+
+Use React???
