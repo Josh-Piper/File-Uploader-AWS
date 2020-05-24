@@ -18,7 +18,15 @@
     }
 
 
+if (isset($_POST['submit'])) {
+    print_r("got to submitting");
+    $Connection = ConnectToDatabase();
+    if ($connection) {
+        echo "Horray";
+    }
+}
 
+/*
 
 
 //MAIN PROGRAM HERE
@@ -37,11 +45,20 @@ if (isset($_POST['submit'])) {
     //Render all values sent by form
     $title = $_POST['photo-title'];
     $description = $_POST['description-title'];
-    $photo = $_POST['upload-photo'];
+    $photo = $_POST['upload-photo']['type'];
     $date = $_POST['date-title'];
 
-    var $checkArray = [$title, $description, $photo, $date];
+    $checkArray = [$title, $description, $photo, $date];
     CheckLegitimateValues($checkArray);
+
+    //Check for only image types
+    $allowed = array("image/jpeg", "image/gif", "image/png", "image,jpg");
+
+
+    if (!in_array($photo, $allowed)) {
+        echo "Invalid file format, only images allowed";
+        exit();
+    }
 
 
     //Search for id for query
@@ -55,7 +72,7 @@ if (isset($_POST['submit'])) {
 
     //Upload to DB
     $target = '/pictures';
-    $target = $target . basename($_FILES['file']['name']);
+    $target = $target . basename($photo);
     move_uploaded_file($_FILES['file']['tmp_name'], $target);
     //NEED TO DO
     //move_uploaded_file($titleDuplication, $uploads_dir. '/')
