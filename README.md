@@ -5,7 +5,7 @@
 This is a sample project that requires setting up AWS ELB's, Route53, VPC's, Monitoring etc.
 This repository will track the progress completed...</br>
 
-## How To Set Up 
+## How To Set Up on EC2
 ```
 sudo yum -y update -> updates server
 sudo yum -y install httpd php -> installs httpd + php interpreter
@@ -16,3 +16,10 @@ sudo service httpd start -> Starts web server on current machine
 ```
 
 ### How to make wget and update EC2 instance repo when config refreshed? boot /w docker + kurbenetes...
+
+## AWS CLI script
+
+### Creating the VPC
+```
+View the install script within the repo
+```
