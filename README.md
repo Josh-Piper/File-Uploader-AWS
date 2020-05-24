@@ -7,9 +7,11 @@ This repository will track the progress completed...</br>
 
 ## How To Set Up 
 ```
-1. Sign in to AWS.
-2. Set up VPC.
-3. Create EC2 instance.
-4. DoSomething?
+sudo yum -y update -> updates server
+sudo yum -y install httpd php -> installs httpd + php interpreter
+sudo chkconfig httpd on -> ensures Apache is on when booted
+wget https://github.com/PandaPlaysAll/File-Uploader-AWS/archive/master.zip -> downloads this repo
+sudo unzip File-Uploader-AWS-master.zip -d /var/www/html -> unzips repo into default webpage
+sudo service httpd start -> Starts web server on current machine
 ```
 
