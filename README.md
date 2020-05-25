@@ -5,7 +5,7 @@
 This is a sample project that requires setting up AWS ELB's, Route53, VPC's, Monitoring etc.
 This repository will track the progress completed...</br>
 
-## How To Set Up on AWWS
+## How To Set Up on AWS
 ```
 sudo yum -y update -> updates server
 sudo yum -y install httpd php -> installs httpd + php interpreter
