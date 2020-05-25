@@ -1,8 +1,9 @@
 <?php
 
     //Connect to Database
-    function ConnectToDatabase() {
-    $serverName = "localhost:8012";
+    function ConnectToDatabase() 
+	{
+    $serverName = "localhost";
     $username = "root";
     $password = "";
     $databaseName = "swinburne";
@@ -20,13 +21,12 @@
 
 if (isset($_POST['submit'])) {
     print_r("got to submitting");
-    $Connection = ConnectToDatabase();
+    $connection = ConnectToDatabase();
     if ($connection) {
         echo "Horray";
     }
 }
 
-/*
 
 
 //MAIN PROGRAM HERE
@@ -45,29 +45,33 @@ if (isset($_POST['submit'])) {
     //Render all values sent by form
     $title = $_POST['photo-title'];
     $description = $_POST['description-title'];
-    $photo = $_POST['upload-photo']['type'];
+    $photo = $_POST['upload-photo'];
     $date = $_POST['date-title'];
 
     $checkArray = [$title, $description, $photo, $date];
     CheckLegitimateValues($checkArray);
 
     //Check for only image types
-    $allowed = array("image/jpeg", "image/gif", "image/png", "image,jpg");
+    $allowed = array('gif', 'jpeg', 'jpg', 'png');
 
-
-    if (!in_array($photo, $allowed)) {
+	
+	$extentionFile = pathinfo($photo, PATHINFO_EXTENSION);
+	echo $extentionFile;
+    if (!in_array(strtolower($extentionFile), $allowed)) {
         echo "Invalid file format, only images allowed";
         exit();
     }
 
 
     //Search for id for query
-    $query = "SELECT * ORDER by ID LIMIT 1 FROM images";
-    $result = $connection->query($query);
-    if ($result->num_rows > 0) {
-        $id = $result["id"];
+    $query = "SELECT * FROM images";
+	
+	
+    if (!($result = mysqli_query($connection, $query))) {
+		$id = 0;
     } else {
-        $id = 0;
+		$num_rows = mysqli_num_rows($result);
+        $id = $num_rows++;
     }
 
     //Upload to DB
