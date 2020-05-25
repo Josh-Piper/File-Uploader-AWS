@@ -36,7 +36,7 @@ sh mysql.sh
 
 ### Creating the VPC
 ```
-View the install script within the repo
+Unfinished. Depricated... View for EC2 creation.
 ```
 This is a depricated way of installing a VPC. CloudFormation is a better way of doing this.
 Depricated.
