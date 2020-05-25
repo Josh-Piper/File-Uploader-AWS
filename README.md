@@ -32,3 +32,5 @@ sh mysql.sh
 ```
 View the install script within the repo
 ```
+This is a depricated way of installing a VPC. CloudFormation is a better way of doing this.
+Depricated.
