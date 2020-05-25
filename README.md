@@ -16,6 +16,13 @@ sudo service httpd start -> Starts web server on current machine
 ```
 
 ## How to Set Up on Docker
+
+
+### CloudFormation Deployment
+```
+DoSomething() -> JSON
+```
+### EC2 Installation
 ```
 docker build .
 docker run --rm --h [myapp.mydomain.com] [ContainerID]
