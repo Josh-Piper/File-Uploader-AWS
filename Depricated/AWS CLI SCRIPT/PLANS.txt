@@ -5,3 +5,8 @@ once image is in. Table appears for the other information.
 Style like bootstrap simple appearance.
 
 Use React???
+
+
+
+Turns out that deployment via. AWS CLI is inefficient.
+CloudFormation can automate deployments via. JSON files.
