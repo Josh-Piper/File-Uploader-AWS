@@ -6,6 +6,11 @@ This is a sample project that requires setting up AWS ELB's, Route53, VPC's, Mon
 This repository will track the progress completed...</br>
 
 ## How To Set Up on AWS
+### CloudFormation Deployment
+```
+DoSomething() -> JSON
+```
+### EC2 Installation
 ```
 sudo yum -y update -> updates server
 sudo yum -y install httpd php -> installs httpd + php interpreter
@@ -16,13 +21,7 @@ sudo service httpd start -> Starts web server on current machine
 ```
 
 ## How to Set Up on Docker
-
-
-### CloudFormation Deployment
-```
-DoSomething() -> JSON
-```
-### EC2 Installation
+### Docker Installation
 ```
 docker build .
 docker run --rm --h [myapp.mydomain.com] [ContainerID]
