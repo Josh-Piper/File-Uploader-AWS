@@ -1,0 +1,198 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+  
+    "Description": "CloudFormation EC2 Deployment Assignment 1a",
+  
+    "Parameters": {
+       "KeyName": {
+   
+        "Description" : "Name of an existing EC2 KeyPair to enable SSH access to the instance",
+        "Type": "AWS::EC2::KeyPair::KeyName",
+        "ConstraintDescription" : "must be the name of an existing EC2 KeyPair."
+      },
+      "InstanceType": {
+        "Description": "WebServer EC2 instance type",
+        "Type": "String",
+        "Default": "t2.micro",
+        "AllowedValues": ["t1.micro", "t2.nano", "t2.micro"],
+        "ConstraintDescription": "must be a valid EC2 instance type."
+      },
+  
+      "SSHLocation": {
+        "Description": "The IP address range that can be used to SSH to the EC2 instances",
+        "Type": "String",
+        "MinLength": "9",
+        "MaxLength": "18",
+        "Default": "0.0.0.0/0",
+        "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+        "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x."
+      }
+    },
+  
+    "Mappings": {
+      "AWSInstanceType2Arch": {
+        "t2.micro": {
+          "Arch": "HVM64"
+        }
+      },
+  
+      "AWSInstanceType2NATArch": {
+        "t1.micro": {
+          "Arch": "NATHVM64"
+        },
+        "t2.nano": {
+          "Arch": "NATHVM64"
+        },
+        "t2.micro": {
+          "Arch": "NATHVM64"
+        }
+      },
+      "AWSRegionArch2AMI": {
+        "us-east-1": {
+          "HVM64": "ami-0080e4c5bc078760e",
+          "HVMG2": "ami-0aeb704d503081ea6"
+        },
+        "us-west-2": {
+          "HVM64": "ami-01e24be29428c15b2",
+          "HVMG2": "ami-0fe84a5b4563d8f27"
+        },
+        "us-west-1": {
+          "HVM64": "ami-0ec6517f6edbf8044",
+          "HVMG2": "ami-0a7fc72dc0e51aa77"
+        },
+        "eu-west-1": {
+          "HVM64": "ami-08935252a36e25f85",
+          "HVMG2": "ami-0d5299b1c6112c3c7"
+        },
+        "eu-west-2": {
+          "HVM64": "ami-01419b804382064e4",
+          "HVMG2": "NOT_SUPPORTED"
+        },
+        "eu-west-3": {
+          "HVM64": "ami-0dd7e7ed60da8fb83",
+          "HVMG2": "NOT_SUPPORTED"
+        },
+        "eu-central-1": {
+          "HVM64": "ami-0cfbf4f6db41068ac",
+          "HVMG2": "ami-0aa1822e3eb913a11"
+        },
+        "eu-north-1": {
+          "HVM64": "ami-86fe70f8",
+          "HVMG2": "ami-32d55b4c"
+        }
+      }
+  
+    },
+  
+    "Resources": {
+      "EC2Instance": {
+        "Type": "AWS::EC2::Instance",
+        "Properties": {
+          "Tags": [{
+              "Key": "StudentID",
+              "Value": "102678001"
+            },
+            {
+              "Key": "StudentName",
+              "Value": "JoshuaPiper"
+            }
+          ],
+          "InstanceType": "t2.micro",
+          "SecurityGroups": [{
+            "Ref": "WebServerSG"
+          }],
+          "KeyName" : { "Ref" : "KeyName" },
+          "ImageId": "ami-01d025118d8e760db",
+          "UserData": {
+            "Fn::Base64": {
+              "Fn::Join": ["", [
+                "#!/bin/bash -ex\n",
+                "yum update -y\n",
+                "yum install -y httpd php mysql-server php-mysqlnd\n",
+                "service httd start\n",
+                "chkconfig httpd on\n",
+                "usermod -a -G apache ec2-user\n",
+                "chown -R ec2-user:apache /var/www\n",
+                "chmod 2775 /var/www\n",
+                "find /var/www -type d -exec sudo chmod 2775 {} \\;\n",
+                "find /var/www -type f -exec sudo chmod 0664 {} \\;\n",
+                "echo '<?php echo \"'<h2>Welcome to COS80001. Installed PHP version: '\" . phpversion() . \"'</h2>\"'; ?>' > /var/www/html/phpinfo.php\n"
+                "echo '</? php echo \"'<h2>Welcome to COS80001. Installed PHP version: '\" . phpversion() . \"'</h2>\"'"
+                ECHO DOES NOT WORK
+              ]]
+            }
+          }
+  
+        }
+      },
+  
+      "WebServerSG": {
+        "Type": "AWS::EC2::SecurityGroup",
+        "Properties": {
+          "GroupDescription": "Web DMZ",
+          "SecurityGroupIngress": [{
+              "IpProtocol": "tcp",
+              "FromPort": "22",
+              "ToPort": "22",
+              "CidrIp": {
+                "Ref": "SSHLocation"
+              }
+            },
+            {
+              "IpProtocol": "tcp",
+              "FromPort": "80",
+              "ToPort": "80",
+              "CidrIp": {
+                "Ref": "SSHLocation"
+              }
+            },
+            {
+              "IpProtocol": "tcp",
+              "FromPort": "443",
+              "ToPort": "443",
+              "CidrIp": {
+                "Ref": "SSHLocation"
+              }
+            }
+          ],
+  
+          "Tags": [{
+              "Key": "StudentID",
+              "Value": "102678001"
+            },
+            {
+              "Key": "StudentName",
+              "Value": "JoshuaPiper"
+            }
+          ]
+        }
+      }
+    },
+  
+    "Outputs": {
+      "InstanceId": {
+        "Description": "InstanceId of the newly created EC2 instance",
+        "Value": {
+          "Ref": "EC2Instance"
+        }
+      },
+      "AZ": {
+        "Description": "Availability Zone of the newly created EC2 instance",
+        "Value": {
+          "Fn::GetAtt": ["EC2Instance", "AvailabilityZone"]
+        }
+      },
+      "PublicDNS": {
+        "Description": "Public DNSName of the newly created EC2 instance",
+        "Value": {
+          "Fn::GetAtt": ["EC2Instance", "PublicDnsName"]
+        }
+      },
+      "PublicIP": {
+        "Description": "Public IP address of the newly created EC2 instance",
+        "Value": {
+          "Fn::GetAtt": ["EC2Instance", "PublicIp"]
+        }
+      }
+    }
+  }
