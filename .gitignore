@@ -1,2 +1,7 @@
 settings.php
 *settings*
+composer.lock
+composer.phar
+vendor
+facebook.jpg
+composer.json
