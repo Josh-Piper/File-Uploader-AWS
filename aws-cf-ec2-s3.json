@@ -106,18 +106,20 @@
           "UserData": {
             "Fn::Base64": {
               "Fn::Join": ["", [
-                "#!/bin/bash -ex\n",
-                "yum update -y\n",
-                "yum install -y httpd php mysql-server php-mysqlnd\n",
-                "service httd start\n",
-                "chkconfig httpd on\n",
-                "usermod -a -G apache ec2-user\n",
-                "chown -R ec2-user:apache /var/www\n",
-                "chmod 2775 /var/www\n",
-                "find /var/www -type d -exec sudo chmod 2775 {} \\;\n",
-                "find /var/www -type f -exec sudo chmod 0664 {} \\;\n",
-                "wget https://github.com/PandaPlaysAll/File-Uploader-AWS/archive/master.zip -> downloads this repo",
-                "sudo unzip File-Uploader-AWS-master.zip -d /var/www/html -> unzips repo into default webpage"
+                "#!/bin/bash -ex",
+                "yum update -y",
+                "yum install -y httpd php mysql-server php-mysqlnd",
+                "service httd start",
+                "chkconfig httpd on",
+                "usermod -a -G apache ec2-user",
+                "chown -R ec2-user:apache /var/www/http",
+                "chmod 2775 /var/www",
+                "find /var/www -type d -exec sudo chmod 2775 {} \\;",
+                "find /var/www -type f -exec sudo chmod 0664 {} \\;",
+                "sudo su",
+                "wget https://github.com/PandaPlaysAll/File-Uploader-AWS/archive/master.zip",
+                "sudo unzip master.zip -d /var/www/html",
+				"cp /var/www/html/file-uploader-aws-master/* /var/www/html/cos20019/photoalbum"
               ]]
             }
           }

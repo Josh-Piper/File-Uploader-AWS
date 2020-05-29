@@ -39,7 +39,7 @@
                 <input type="date" id="photo--date" name="photo--date">
             </label>
             <label><label>Keywords (seperated by a semicolon, e.g. keyword1; keyword2;)</label></label>
-
+			<label><input type="submit" value="Upload" style="margin: 0px;"> </label>
         </form>
         <br>
         <a href="getphotos.php">Photo Album</a>
@@ -48,6 +48,6 @@
 
 <?php
 
-   require '/path/to/vendor/autoload.php';
+   require './vendor/autoload.php';
 
 ?>
