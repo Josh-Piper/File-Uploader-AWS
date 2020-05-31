@@ -21,15 +21,15 @@
 		<form>
     <label>
                 <label for="photo--title">Photo title:</label>
-                <input type="text" id="photo--title" name="photo--title">
+                <input type="text" id="photo--title" name="photo-title">
             </label>
             <label>
-                <label for="photo--description">Keywords:</label>
-                <input type="text" id="photo--description" name="photo--description">
+                <label for="photo--keywords">Keywords:</label>
+                <input type="text" id="photo--keywords" name="photo-keywords">
             </label>
             <label>
                 <label for="photo--date">Date:</label>
-                <input type="date" id="photo--date" name="photo--date">
+                <input type="date" id="photo--date" name="photo-date">
             </label>
 			<label><input type="submit" value="Find" style="margin: 0px;"> </label>
     </form>
@@ -44,36 +44,59 @@
 
     //dependecies
     require dirname(__FILE__).'./vendor/autoload.php';
-    require './vendor/autoload.php';
+    require_once './settings.php';
 
-    //link to S3 bucket
+
+    $connection = new mysqli($dbhost, $dbuser, $dbpass,$db) or die("Connect failed: %s\n". $connection -> error); 
+
+    $title = $_POST["photo-title"];
+    $keywords = $_POST["photo-keywords"];
+    $date = $_POST["photo-date"];
+
+
+    if (isset($_POST['submit'])) 
+    {
+        
+        $query = "SELECT * FROM `photos` WHERE `title` LIKE %$title% AND `Keyword` LIKE %$keywords% AND `Date` LIKE %$date%";
+
+        $result = mysqli_query($connection, $query);
+        if (!Result) {
+
+        } else {
+            
+            echo "<table>";
+            echo "<tr>";
+                echo "<td>Id</td>";
+                echo "<td>Keywords</td>";
+                echo "<td>Date</td>";
+                echo "<td>Reference</td>";
+            echo "</tr>";
+            
+               while ($row = mysql_fetch_array($query)) {
+                   echo "<tr>";
+                   echo "<td>".$row[title]."</td>";
+                   echo "<td>".$row[Keyword]."</td>";
+                   echo "<td>".$row[Date]."</td>";
+                   echo "<td>"."Reference To S3 Bucket"."</td>";
+                   echo "</tr>";
+               }
+            echo "</table>";
+
+        }
+    }
+
+    $connection->close();
+
+
+/*     //link to S3 bucket
     use AWS\S3\S3Client;
     $s3_client = new S3Client([
         'version' => 'latest',
         'region' => 'us-east-1'
     ]);
 
-    //uploading to a bucket
-    use AWS\S3\MultipartUploader;
-    use Aws\Common\Exception\S3Exception;
+   
     
-    //upload file to EC2 instance
-    $is_file_uploaded = move_uploaded_file($_FILES['name_of_file']['tmp_name'], 
-    dirname(__FILE__).'photos/your_file.png');
-
-    if ($is_file_uploaded) {
-        $uploader = new MultipartUploader(
-            $s3_client,
-            dirname(__FILE__).'photos/your_file.png',
-            ['bucket' => '102678001album', 'key' => 'object-name']);
-        try {
-            $result = $uploader->upload();
-
-        } catch (S3Exception $e) {
-            echo $e->getMessage() . PHP_EOL;
-        }
-        
-    }
 
 
 
@@ -98,11 +121,8 @@
             }
     }
     
-    require_once 'settings.php';
-
-    $connection = new mysqli($dbhost, $dbuser, $dbpass,$db) or die("Connect failed: %s\n". $connection -> error); 
-
+    
     //Put result someone...
-
+ */
 
 ?>
